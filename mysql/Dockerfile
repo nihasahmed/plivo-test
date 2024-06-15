@@ -1,0 +1,8 @@
+FROM mysql:8.0
+
+ENV MYSQL_DATABASE=messages_db
+ENV MYSQL_USER=username
+ENV MYSQL_PASSWORD=password
+ENV MYSQL_ROOT_PASSWORD=rootpassword
+
+EXPOSE 3306

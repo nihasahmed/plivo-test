@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  db:
+    build:
+      context: ./mysql
+    image: mysql:8.0
+    container_name: mysql_db
+    environment:
+      MYSQL_DATABASE: messages_db
+      MYSQL_USER: username
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: rootpassword
+    ports:
+      - "3306:3306"
+    healthcheck:
+        test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+        interval: 10s
+        timeout: 10s
+        retries: 5
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  app:
+    build: .
+    container_name: message_service
+    ports:
+      - "5001:5000"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      SQLALCHEMY_DATABASE_URI: mysql://username:password@db/messages_db
+    volumes:
+      - .:/app
+    command: ["python", "run.py"]
+
+volumes:
+  mysql_data:
