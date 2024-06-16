@@ -10,8 +10,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Checkout the code from the specified Git repository
-                git branch: 'main', url: 'https://github.com/nihasahmed/plivo-test.git'
+                checkout scm
             }
         }
 
