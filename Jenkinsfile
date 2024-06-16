@@ -36,6 +36,7 @@ pipeline {
             }
             steps {
                 // Set up a virtual environment and install dependencies
+                sh 'apt install python3.11-venv'
                 sh 'python3 -m venv venv'
                 sh './venv/bin/pip install -r requirements.txt'
                 sh './venv/bin/pip install pytest'
