@@ -17,9 +17,10 @@ def create_app():
     ma.init_app(app)
 
     # Logging configuration
-    if not os.path.exists('logs'):
-        os.mkdir('logs')
-    file_handler = RotatingFileHandler('/var/log/message_service/app.log', maxBytes=10240, backupCount=10)
+    if not os.path.exists('logs/message_service'):
+        os.makedirs('logs/message_service', exist_ok=True)
+
+    file_handler = RotatingFileHandler('logs/message_service/app.log', maxBytes=10240, backupCount=10)
     file_handler.setFormatter(logging.Formatter(
         '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'
     ))

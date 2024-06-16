@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vector-config
+data:
+  vector.toml: |
+    # Vector configuration
+    [sources.app_logs]
+      type = "file"
+      include = ["logs/message_service/app.log"]
+      ignore_older = 86400  # 1 day
+
+    [sinks.console]
+      type = "console"
+      inputs = ["app_logs"]
+      encoding.codec = "json"

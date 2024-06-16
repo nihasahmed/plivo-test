@@ -1,4 +1,7 @@
 app/__pycache__
 venv/
 logs/
-k8s/
+.DS_STORE
+.terraform*
+*.tfstate*
+kubeconfig

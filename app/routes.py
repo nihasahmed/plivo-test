@@ -37,13 +37,14 @@ def register_routes(app):
         query = Message.query
         current_app.logger.info(f'Searching messages with params: {request.args}')
         try:
-            for param, value in request.args.items():
-                if param == 'message_id':
-                    query = query.filter(Message.message_id.in_(value.split(',')))
-                elif param == 'sender_number':
-                    query = query.filter(Message.sender_number.in_(value.split(',')))
-                elif param == 'receiver_number':
-                    query = query.filter(Message.receiver_number.in_(value.split(',')))
+            if 'message_id' in request.args:
+                query = query.filter(Message.message_id.in_(request.args.get("message_id").split(',')))
+            if 'sender_number' in request.args:
+                query = query.filter(Message.sender_number.in_(request.args.get("sender_number").split(',')))
+            if 'receiver_number' in request.args:
+                query = query.filter(Message.receiver_number.in_(request.args.get("receiver_number").split(',')))
+            if 'account_id' in request.args:
+                query = query.filter(Message.account_id==request.args.get("account_id"))
             messages = query.all()
             return messages_schema.jsonify(messages)
         except Exception as e:

@@ -1,4 +1,4 @@
-FROM python:3.9-slim
+FROM --platform=linux/amd64 python:3.9-slim
 
 WORKDIR /app
 
@@ -11,7 +11,7 @@ RUN pip3 install -r requirements.txt
 
 COPY . .
 
-RUN mkdir -p logs
+RUN mkdir -p logs/message_service
 
 EXPOSE 5000
 
