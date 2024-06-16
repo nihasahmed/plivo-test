@@ -11,7 +11,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Checkout the code from the specified Git repository
-                git branch: 'main', url: 'git@github.com:nihasahmed/plivo-test.git'
+                git branch: 'main', url: 'https://github.com/nihasahmed/plivo-test.git'
             }
         }
 
