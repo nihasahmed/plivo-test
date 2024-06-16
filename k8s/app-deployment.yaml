@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: message-service
-        image: plivotestrepo.azurecr.io/message-service:v1
+        image: plivotestrepo.azurecr.io/message-service:v3
         ports:
         - containerPort: 5000
         env:
@@ -29,7 +29,7 @@ spec:
           value: mysql://username:password@mysql/messages_db
         volumeMounts:
         - name: var-log
-          mountPath: logs/message_service
+          mountPath: /var/logs/message_service
         resources:
           requests:
             memory: 128Mi
@@ -43,7 +43,7 @@ spec:
         - name: vector-config
           mountPath: /etc/vector/vector.toml
         - name: var-log
-          mountPath: logs/message_service
+          mountPath: /var/logs/message_service
         resources:
           requests:
             memory: 128Mi
@@ -57,4 +57,4 @@ spec:
           name: vector-config
       - name: var-log
         hostPath:
-          path: logs/message_service
+          path: /var/logs/message_service

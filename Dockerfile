@@ -11,7 +11,7 @@ RUN pip3 install -r requirements.txt
 
 COPY . .
 
-RUN mkdir -p logs/message_service
+RUN mkdir -p /var/logs/message_service
 
 EXPOSE 5000
 
