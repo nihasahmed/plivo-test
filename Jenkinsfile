@@ -36,8 +36,9 @@ pipeline {
             }
             steps {
                 // Set up a virtual environment and install dependencies
-                sh 'python -m venv venv'
+                sh 'python3 -m venv venv'
                 sh './venv/bin/pip install -r requirements.txt'
+                sh './venv/bin/pip install pytest'
                 // Run unit tests
                 sh './venv/bin/pytest'
             }
