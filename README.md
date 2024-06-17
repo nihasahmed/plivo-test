@@ -83,12 +83,16 @@
 	- Set the script path to Jenkinsfile.
 
 - Add Azure Credentials to Jenkins
-	- Create a service principal for JSON with least privilage 
+	- Create a service principal for Jenkins with least privilage 
 	- In Jenkins, go to "Manage Jenkins" > "Manage Credentials".
 	- Add a new "Username with password" credential with the following:
 	- ID: azure-sp
 	- Username: clientId from the service principal JSON.
 	- Password: clientSecret from the service principal JSON.
+
+- Add Kubernetes Access to Jenkins
+	- Create a kubernetes service account for Jenkins with required cluster rolebinding 
+	- Use service account tocken with Jenkin credentials plugin to access cluster with steps.
 
 - Run the Pipeline
 

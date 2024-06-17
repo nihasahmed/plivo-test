@@ -83,6 +83,7 @@ pipeline {
                 }
             }
             steps {
+                // Use kubeconfig with Service account token to access kubernetes cluster and set the new image
                 withKubeConfig([credentialsId: KUBECONFIG_CREDENTIALS_ID]) {
                     sh """
                     kubectl set image deployment/message-service message-service=${DOCKER_IMAGE}:v${env.BUILD_ID}
