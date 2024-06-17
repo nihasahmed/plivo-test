@@ -85,7 +85,7 @@ pipeline {
             steps {
                 withKubeConfig([credentialsId: KUBECONFIG_CREDENTIALS_ID]) {
                     sh """
-                    kubectl set image deployment/message-service message-servicee=${DOCKER_IMAGE}:v${env.BUILD_ID}
+                    kubectl set image deployment/message-service message-service=${DOCKER_IMAGE}:v${env.BUILD_ID}
                     kubectl rollout status deployment/message-service
                     """
                 }
