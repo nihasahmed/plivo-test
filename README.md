@@ -1,4 +1,4 @@
-### API urls
+## API urls
 
 **To get all messages under an account**: method:`get` url:`<deployment-server-url>/get/messages/<account_id>`
 **To create messages under an account**:  method:`post` url:`<deployment-server-url>/create` with data 
@@ -16,7 +16,7 @@
 - **account_id**:  takes a single value. If multiple values are given in comma like above it will be considered as one single value with comma in it. eg `?account_id=20`
 - Values can be send as combinations also. Eg: to search message with sender_number in (1235678,987654) under the accound_id 20 use query string like this  `?sender_number='1235678,987654'&account_id='20'`
 
-### Files and folders
+## Files and folders
 
 -  **app/ **: Contains main source code of the message service API
 -  **k8s/ **: Contains kubernetes manifest files required to deploy resources in the kubernetes cluster
@@ -29,13 +29,13 @@
 - **requirements-pytest.txt** - file listing dependencies required for unit testing in jenkins
 - **requirements.txt** - r - file listing dependencies required for running the message service API
 
-### Instructions to deploy message service API locally 
+## Instructions to deploy message service API locally 
 
 **Prerequisites** - Should have Docker, Python3, PIP installed 
 **Steps to deploy** -  Run `docker-compose up ` from root of repo
 **How to Access** -  Open browser and go to [localhost:5001](localhost:5001 "localhost:5001")
 
-### Instructions to deploy message service API inside a new AKS cluster
+## Instructions to deploy message service API inside a new AKS cluster
 
 **Prerequisites**  Should have Terraform, Azure CLI, Docker, Kubernetes, Python3, PIP installed
 **Steps to deploy** 
@@ -61,7 +61,7 @@
 - Verify the deployments by `kubectl get all`
 - run `kubectl get ingress` to get the external public IP for using in browser as API server address.  `ADDRESS` field shows the IP's value which can be taken from azure console or cli as the clusters external IP. The IP can be mapped with a domain or application load balancer in front.
 
-### Setting up Jenkins Pipeline for CI and CD to clusters 
+## Setting up Jenkins Pipeline for CI and CD to clusters 
 
 #### Prerequisites
 - Jenkins server installed and running.
