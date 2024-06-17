@@ -26,7 +26,7 @@ spec:
         - containerPort: 5000
         env:
         - name: SQLALCHEMY_DATABASE_URI
-          value: mysql://username:password@mysql/messages_db
+          value: mysql://username:password@mysql/messages_db #this should be a secret 
         volumeMounts:
         - name: var-log
           mountPath: /var/logs/message_service
