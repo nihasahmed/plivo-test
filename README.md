@@ -1,4 +1,5 @@
 ### API urls
+
 **To get all messages under an account**: method:`get` url:`<deployment-server-url>/get/messages/<account_id>`
 **To create messages under an account**:  method:`post` url:`<deployment-server-url>/create` with data 
 ```json
@@ -14,6 +15,19 @@
 - **receiver_number**: takes multiple values seperated comma and enclosed by quotes eg:  `?receiver_number='1235678,987654'`
 - **account_id**:  takes a single value. If multiple values are given in comma like above it will be considered as one single value with comma in it. eg `?account_id=20`
 - Values can be send as combinations also. Eg: to search message with sender_number in (1235678,987654) under the accound_id 20 use query string like this  `?sender_number='1235678,987654'&account_id='20'`
+
+### Files and folders
+
+-  **app/ **: Contains main source code of the message service API
+-  **k8s/ **: Contains kubernetes manifest files required to deploy resources in the kubernetes cluster
+- **mysql/ **: Contains a dummy Dockerfile that docker-compose will use while deploying locally (This is not required, will be deleted!)
+- **terraform/** : Contains terraform IAC files required for creating resources required to setup a kubernetes cluster(AKS) and a docker-registry for pushing and pulling images
+- **tests/** : Contain a python file with some unit tests to rest route functions 
+- **.gitignore** : files and folders to ignore
+- **docker-compose** : docker-compose file to run build and run both a mysql db and the message api server which consume it. Used for local testing
+- **Jenkinsfile** : Jenkins declarative pipeline script to master code from git, run unit tests and if tests pass an image will be build and also the same will get deployed to the kubernetes cluster
+- **requirements-pytest.txt** - file listing dependencies required for unit testing in jenkins
+- **requirements.txt** - r - file listing dependencies required for running the message service API
 
 ### Instructions to deploy message service API locally 
 
@@ -47,20 +61,40 @@
 - Verify the deployments by `kubectl get all`
 - run `kubectl get ingress` to get the external public IP for using in browser as API server address.  `ADDRESS` field shows the IP's value which can be taken from azure console or cli as the clusters external IP. The IP can be mapped with a domain or application load balancer in front.
 
+### Setting up Jenkins Pipeline for CI and CD to clusters 
+
+#### Prerequisites
+- Jenkins server installed and running.
+- Required Jenkins plugins installed:
+	- Pipeline
+	- Credentials
+	- Docker
+	- Docker Pipeline
+	- Git
+	- Kubernetes
+
+#### Setting Up Jenkins
+- Create a New Pipeline Job
+
+	- Open Jenkins and create a new item.
+	- Select "Pipeline" and name your job.
+	- Under "Pipeline" settings, select "Pipeline script from SCM".
+	- Set the SCM to Git and provide the repository URL and credentials if required.
+	- Set the script path to Jenkinsfile.
+
+- Add Azure Credentials to Jenkins
+	- Create a service principal for JSON with least privilage 
+	- In Jenkins, go to "Manage Jenkins" > "Manage Credentials".
+	- Add a new "Username with password" credential with the following:
+	- ID: azure-sp
+	- Username: clientId from the service principal JSON.
+	- Password: clientSecret from the service principal JSON.
+
+- Run the Pipeline
+
+	- Save the job configuration and run the job. Jenkins will execute the pipeline defined in the Jenkinsfile.
 
 
-### Contents
-
--  **app/ **: Contains main source code of the message service API
--  **k8s/ **: Contains kubernetes manifest files required to deploy resources in the kubernetes cluster
-- **mysql/ **: Contains a dummy Dockerfile that docker-compose will use while deploying locally (This is not required, will be deleted!)
-- **terraform/** : Contains terraform IAC files required for creating resources required to setup a kubernetes cluster(AKS) and a docker-registry for pushing and pulling images
-- **tests/** : Contain a python file with some unit tests to rest route functions 
-- **.gitignore** : files and folders to ignore
-- **docker-compose** : docker-compose file to run build and run both a mysql db and the message api server which consume it. Used for local testing
-- **Jenkinsfile** : Jenkins declarative pipeline script to master code from git, run unit tests and if tests pass an image will be build and also the same will get deployed to the kubernetes cluster
-- **requirements-pytest.txt** - file listing dependencies required for unit testing in jenkins
-- **requirements.txt** - r - file listing dependencies required for running the message service API
 
 
 
