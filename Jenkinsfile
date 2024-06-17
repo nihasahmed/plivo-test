@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKER_REGISTRY = 'plivotestrepo.azurecr.io'
-        DOCKER_IMAGE = "${DOCKER_REGISTRY}/your-image-name"
+        DOCKER_IMAGE = "${DOCKER_REGISTRY}/message-service"
         AZURE_CREDENTIALS = 'azure-sp'
     }
 
@@ -51,6 +51,7 @@ pipeline {
                 }
             }
             steps {
+                sh 'unset DOCKER_HOST'
                 script {
                     // Build the Docker image with a tag based on the build ID
                     dockerImage = docker.build("${DOCKER_IMAGE}:${env.BUILD_ID}")
