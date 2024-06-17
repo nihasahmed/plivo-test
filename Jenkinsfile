@@ -5,6 +5,7 @@ pipeline {
         DOCKER_REGISTRY = 'plivotestrepo.azurecr.io'
         DOCKER_IMAGE = "${DOCKER_REGISTRY}/message-service"
         AZURE_CREDENTIALS = 'azure-sp'
+        KUBECONFIG_CREDENTIALS_ID = 'plivo'
     }
 
     stages {
@@ -84,8 +85,8 @@ pipeline {
             steps {
                 withKubeConfig([credentialsId: KUBECONFIG_CREDENTIALS_ID]) {
                     sh """
-                    kubectl set image deployment/your-deployment-name your-container-name=${DOCKER_IMAGE}:${env.BUILD_ID}
-                    kubectl rollout status deployment/your-deployment-name
+                    kubectl set image deployment/message-service message-servicee=${DOCKER_IMAGE}:v${env.BUILD_ID}
+                    kubectl rollout status deployment/message-service
                     """
                 }
             }
