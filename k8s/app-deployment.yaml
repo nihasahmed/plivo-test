@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: message-service
-        image: plivotestrepo.azurecr.io/message-service:v3
+        image: plivotestrepo.azurecr.io/message-service:v5
         ports:
         - containerPort: 5000
         env:

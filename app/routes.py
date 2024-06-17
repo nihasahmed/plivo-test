@@ -2,6 +2,8 @@ from flask import request, jsonify, current_app
 from . import db
 from .models import Message
 from .schemas import message_schema, messages_schema
+import uuid
+
 
 def register_routes(app):
     @app.route('/get/messages/<account_id>', methods=['GET'])
@@ -21,6 +23,7 @@ def register_routes(app):
         try:
             new_message = Message(
                 account_id=data['account_id'],
+                message_id=str(uuid.uuid4()),
                 sender_number=data['sender_number'],
                 receiver_number=data['receiver_number']
             )

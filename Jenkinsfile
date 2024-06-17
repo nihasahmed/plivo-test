@@ -28,21 +28,20 @@ pipeline {
             }
         }
 
-        // stage('Test') {
-        //     when {
-        //         not {
-        //             equals expected: 'SUCCESS', actual: currentBuild.result
-        //         }
-        //     }
-        //     steps {
-        //         // Set up a virtual environment and install dependencies
-        //         sh 'python3 -m venv venv'
-        //         sh './venv/bin/pip install -r requirements.txt'
-        //         sh './venv/bin/pip install pytest'
-        //         // Run unit tests
-        //         sh './venv/bin/pytest'
-        //     }
-        // }
+        stage('Test') {
+            when {
+                not {
+                    equals expected: 'SUCCESS', actual: currentBuild.result
+                }
+            }
+            steps {
+                // Set up a virtual environment and install dependencies
+                sh 'python3 -m venv venv'
+                sh './venv/bin/pip install -r requirements-pytest.txt'
+                // Run unit tests
+                sh 'python3 -m pytest'
+            }
+        }
 
         stage('Build Docker Image') {
             when {
@@ -51,7 +50,6 @@ pipeline {
                 }
             }
             steps {
-                sh 'unset DOCKER_HOST'
                 script {
                     // Build the Docker image with a tag based on the build ID
                     dockerImage = docker.build("${DOCKER_IMAGE}:${env.BUILD_ID}")

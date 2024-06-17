@@ -1,7 +1,9 @@
 app/__pycache__
 venv/
+testenv/
 logs/
 .DS_STORE
 .terraform*
 *.tfstate*
 kubeconfig
+*app.log*

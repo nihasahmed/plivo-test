@@ -9,7 +9,7 @@ import os
 db = SQLAlchemy()
 ma = Marshmallow()
 
-def create_app():
+def create_app(testing=False):
     app = Flask(__name__)
     app.config.from_object(Config)
 
@@ -17,10 +17,13 @@ def create_app():
     ma.init_app(app)
 
     # Logging configuration
-    if not os.path.exists('/var/logs/message_service'):
-        os.makedirs('/var/logs/message_service', exist_ok=True)
-
-    file_handler = RotatingFileHandler('/var/logs/message_service/app.log', maxBytes=10240, backupCount=10)
+    if testing:
+        file_handler = RotatingFileHandler('app.log', maxBytes=10240, backupCount=10)
+    else:
+        if not os.path.exists('/var/logs/message_service'):
+            os.makedirs('/var/logs/message_service', exist_ok=True)
+        file_handler = RotatingFileHandler('/var/logs/message_service/app.log', maxBytes=10240, backupCount=10)
+        
     file_handler.setFormatter(logging.Formatter(
         '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'
     ))
