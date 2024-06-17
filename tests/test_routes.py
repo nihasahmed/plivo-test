@@ -5,9 +5,6 @@ from app.models import Message
 @pytest.fixture
 def client():
     app = create_app(testing=True)
-    
-    import os
-    os.environ['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
 
     with app.app_context():
         db.create_all()

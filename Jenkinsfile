@@ -39,7 +39,7 @@ pipeline {
                 sh 'python3 -m venv venv'
                 sh './venv/bin/pip install -r requirements-pytest.txt'
                 // Run unit tests
-                sh 'python3 -m pytest'
+                sh 'export SQLALCHEMY_DATABASE_URI="sqlite:///:memory:" && ./venv/bin/python3 -m pytest'
             }
         }
 
@@ -66,12 +66,27 @@ pipeline {
             steps {
                 script {
                     // Log in to the Docker registry using the Azure credentials
-                    docker.withRegistry("https://${DOCKER_REGISTRY}", AZURE_CREDENTIALS) {
-                        // Push the image with the build ID tag
-                        dockerImage.push()
-                        // Push the same image with the 'latest' tag
-                        dockerImage.push('latest')
+                    withCredentials([usernamePassword(credentialsId: AZURE_CREDENTIALS, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                      sh 'docker login -u $USERNAME -p $PASSWORD https://${DOCKER_REGISTRY}'
+                      dockerImage.push()
+                      dockerImage.push('latest')
                     }
+                }
+            }
+        }
+
+        stage('Deploy to Kubernetes') {
+            when {
+                not {
+                    equals expected: 'SUCCESS', actual: currentBuild.result
+                }
+            }
+            steps {
+                withKubeConfig([credentialsId: KUBECONFIG_CREDENTIALS_ID]) {
+                    sh """
+                    kubectl set image deployment/your-deployment-name your-container-name=${DOCKER_IMAGE}:${env.BUILD_ID}
+                    kubectl rollout status deployment/your-deployment-name
+                    """
                 }
             }
         }
