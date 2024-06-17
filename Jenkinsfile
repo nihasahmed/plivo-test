@@ -53,7 +53,7 @@ pipeline {
             steps {
                 script {
                     // Build the Docker image with a tag based on the build ID
-                    dockerImage = docker.build("${DOCKER_IMAGE}:${env.BUILD_ID}")
+                    dockerImage = docker.build("${DOCKER_IMAGE}:v${env.BUILD_ID}")
                 }
             }
         }
